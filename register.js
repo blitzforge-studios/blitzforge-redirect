@@ -19,13 +19,13 @@ const body = [
   },
   {
     key: "is_ads",
-    name: "strategist",
+    name: "promoter",
     description: "A role for advertisers. Claimable by users who manage ads or promotions.",
     type: 7, // boolean_eq
   },
   {
     key: "is_admin",
-    name: "director",
+    name: "producer",
     description: "A role for administrators. Claimable by users who have admin privileges.",
     type: 7, // boolean_eq
   },
