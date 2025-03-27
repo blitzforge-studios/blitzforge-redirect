@@ -12,7 +12,7 @@ const body = [
             tr: "mühendis",
             fr: "ingénieur",
             de: "ingenieur",
-            pt: "engenheiro",
+            "pt-BR": "engenheiro",
             el: "μηχανικός",
         },
         description:
@@ -21,7 +21,8 @@ const body = [
             tr: "Geliştiriciler için bir rol. Oyun, web ve güvenlik geliştiricileri tarafından alınabilir.",
             fr: "Un rôle pour les développeurs. Réclamable par les développeurs de jeux, de sites Web et les responsables de la sécurité.",
             de: "Eine Rolle für Entwickler. Anspruchsberechtigt sind Spieleentwickler, Webentwickler und Sicherheitsmanager.",
-            pt: "Um papel para desenvolvedores. Pode ser reivindicado por desenvolvedores de jogos, de sites e gerentes de segurança.",
+            "pt-BR":
+                "Um papel para desenvolvedores. Pode ser reivindicado por desenvolvedores de jogos, de sites e gerentes de segurança.",
             el: "Ένας ρόλος για προγραμματιστές. Μπορεί να διεκδικηθεί από προγραμματιστές παιχνιδιών, ιστοσελίδων και διαχειριστές ασφαλείας.",
         },
         type: 7, // boolean_eq
@@ -33,7 +34,7 @@ const body = [
             tr: "uygulayıcı",
             fr: "exécuteur",
             de: "vollstrecker",
-            pt: "executor",
+            "pt-BR": "executor",
             el: "εκτελεστής",
         },
         description:
@@ -42,7 +43,8 @@ const body = [
             tr: "Moderatörler için bir rol. İçeriği denetleyen kullanıcılar tarafından alınabilir.",
             fr: "Un rôle pour les modérateurs. Réclamable par les utilisateurs qui modèrent le contenu.",
             de: "Eine Rolle für Moderatoren. Anspruchsberechtigt sind Benutzer, die Inhalte moderieren.",
-            pt: "Um papel para moderadores. Pode ser reivindicado por usuários que moderam conteúdo.",
+            "pt-BR":
+                "Um papel para moderadores. Pode ser reivindicado por usuários que moderam conteúdo.",
             el: "Ένας ρόλος για συντονιστές. Μπορεί να διεκδικηθεί από χρήστες που εποπτεύουν περιεχόμενο.",
         },
         type: 7, // boolean_eq
@@ -54,7 +56,7 @@ const body = [
             tr: "tanıtıcı",
             fr: "promoteur",
             de: "förderer",
-            pt: "promotor",
+            "pt-BR": "promotor",
             el: "προωθητής",
         },
         description:
@@ -63,7 +65,8 @@ const body = [
             tr: "Reklamcılar için bir rol. Reklam veya promosyon yöneten kullanıcılar tarafından alınabilir.",
             fr: "Un rôle pour les annonceurs. Réclamable par les utilisateurs qui gèrent les publicités ou les promotions.",
             de: "Eine Rolle für Werbetreibende. Anspruchsberechtigt sind Benutzer, die Anzeigen oder Werbeaktionen verwalten.",
-            pt: "Um papel para anunciantes. Pode ser reivindicado por usuários que gerenciam anúncios ou promoções.",
+            "pt-BR":
+                "Um papel para anunciantes. Pode ser reivindicado por usuários que gerenciam anúncios ou promoções.",
             el: "Ένας ρόλος για διαφημιστές. Μπορεί να διεκδικηθεί από χρήστες που διαχειρίζονται διαφημίσεις ή προωθήσεις.",
         },
         type: 7, // boolean_eq
@@ -75,7 +78,7 @@ const body = [
             tr: "yönetici",
             fr: "directeur",
             de: "direktor",
-            pt: "diretor",
+            "pt-BR": "diretor",
             el: "διευθυντής",
         },
         description:
@@ -84,7 +87,8 @@ const body = [
             tr: "Yöneticiler için bir rol. Yönetici ayrıcalıklarına sahip kullanıcılar tarafından alınabilir.",
             fr: "Un rôle pour les administrateurs. Réclamable par les utilisateurs disposant de privilèges d'administrateur.",
             de: "Eine Rolle für Administratoren. Anspruchsberechtigt sind Benutzer mit Administratorrechten.",
-            pt: "Um papel para administradores. Pode ser reivindicado por usuários com privilégios de administrador.",
+            "pt-BR":
+                "Um papel para administradores. Pode ser reivindicado por usuários com privilégios de administrador.",
             el: "Ένας ρόλος για διαχειριστές. Μπορεί να διεκδικηθεί από χρήστες που έχουν δικαιώματα διαχειριστή.",
         },
         type: 7, // boolean_eq
@@ -96,7 +100,7 @@ const body = [
             tr: "kurucu",
             fr: "fondateur",
             de: "gründer",
-            pt: "fundador",
+            "pt-BR": "fundador",
             el: "ιδρυτής",
         },
         description:
@@ -105,7 +109,8 @@ const body = [
             tr: "Sahipler için bir rol. Projenin sahibi olan kullanıcılar tarafından alınabilir.",
             fr: "Un rôle pour les propriétaires. Réclamable par les utilisateurs qui sont propriétaires du projet.",
             de: "Eine Rolle für Eigentümer. Anspruchsberechtigt sind Benutzer, die Eigentümer des Projekts sind.",
-            pt: "Um papel para proprietários. Pode ser reivindicado por usuários que são donos do projeto.",
+            "pt-BR":
+                "Um papel para proprietários. Pode ser reivindicado por usuários que são donos do projeto.",
             el: "Ένας ρόλος για ιδιοκτήτες. Μπορεί να διεκδικηθεί από χρήστες που είναι οι ιδιοκτήτες του έργου.",
         },
         type: 7, // boolean_eq
