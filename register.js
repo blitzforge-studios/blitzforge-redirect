@@ -72,28 +72,6 @@ const body = [
         type: 7, // boolean_eq
     },
     {
-        key: "is_admin",
-        name: "director",
-        name_localizations: {
-            tr: "yönetici",
-            fr: "directeur",
-            de: "direktor",
-            "pt-BR": "diretor",
-            el: "διευθυντής",
-        },
-        description:
-            "A role for administrators. Claimable by users who have admin privileges.",
-        description_localizations: {
-            tr: "Yöneticiler için bir rol. Yönetici ayrıcalıklarına sahip kullanıcılar tarafından alınabilir.",
-            fr: "Un rôle pour les administrateurs. Réclamable par les utilisateurs disposant de privilèges d'administrateur.",
-            de: "Eine Rolle für Administratoren. Anspruchsberechtigt sind Benutzer mit Administratorrechten.",
-            "pt-BR":
-                "Um papel para administradores. Pode ser reivindicado por usuários com privilégios de administrador.",
-            el: "Ένας ρόλος για διαχειριστές. Μπορεί να διεκδικηθεί από χρήστες που έχουν δικαιώματα διαχειριστή.",
-        },
-        type: 7, // boolean_eq
-    },
-    {
         key: "is_owner",
         name: "founder",
         name_localizations: {
