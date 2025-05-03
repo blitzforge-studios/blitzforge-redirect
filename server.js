@@ -28,7 +28,6 @@ const allowedIDs = {
     ],
     is_ads: [
         "154939684881956864", // cheetoo
-        "621158428194242560", // mica
     ],
     is_owner: [
         "884896120986284033", // felas
