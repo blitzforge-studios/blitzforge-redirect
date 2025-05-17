@@ -210,7 +210,15 @@ app.post("/discord/commands/add-role", async (req, res) => {
             });
         }
 
-        const userData = await discord.getUserData(userId);
+        const auth = req.headers.authorization;
+        if (!auth || !auth.startsWith("Bearer ")) {
+            return res.status(401).json({
+                error: "Yetkilendirme gerekli",
+            });
+        }
+
+        const botToken = auth.split(" ")[1];
+        const userData = await discord.getUserData(userId, botToken);
         if (!userData) {
             return res.status(404).json({
                 error: "Discord kullanıcısı bulunamadı",

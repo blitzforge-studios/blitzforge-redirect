@@ -75,14 +75,22 @@ export async function getAccessToken(userId, tokens) {
     return tokens.access_token;
 }
 
-export async function getUserData(tokens) {
-    const url = "https://discord.com/api/v10/oauth2/@me";
-    const response = await fetch(url, {
-        headers: { Authorization: `Bearer ${tokens.access_token}` },
-    });
+export async function getUserData(tokens, botToken = null) {
+    let url, headers;
+
+    if (botToken) {
+        url = `https://discord.com/api/v10/users/${tokens}`; // tokens burada userId olarak kullanılıyor
+        headers = { Authorization: `Bot ${botToken}` };
+    } else {
+        url = "https://discord.com/api/v10/oauth2/@me";
+        headers = { Authorization: `Bearer ${tokens.access_token}` };
+    }
+
+    const response = await fetch(url, { headers });
 
     if (response.ok) {
-        return await response.json();
+        const data = await response.json();
+        return botToken ? data : data.user;
     } else {
         const errorText = await response.text();
         throw new Error(

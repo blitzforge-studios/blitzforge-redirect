@@ -1,9 +1,4 @@
-import {
-    Client,
-    GatewayIntentBits,
-    MessageFlags,
-    PermissionsBitField,
-} from "discord.js";
+import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import { config } from "dotenv";
 import fetch from "node-fetch";
 
@@ -27,7 +22,7 @@ client.on("interactionCreate", async (interaction) => {
             const user = options.getUser("user");
             const role = options.getString("role");
 
-            await interaction.deferReply({ ephemeral: MessageFlags.Ephemeral });
+            await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
             const response = await fetch(
                 "https://blitzforge-redirect.onrender.com/discord/commands/add-role",
@@ -59,7 +54,7 @@ client.on("interactionCreate", async (interaction) => {
         } else if (commandName === "removerole") {
             const user = options.getUser("user");
 
-            await interaction.deferReply({ ephemeral: MessageFlags.Ephemeral });
+            await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
             const response = await fetch(
                 "https://blitzforge-redirect.onrender.com/remove-metadata",
@@ -89,7 +84,6 @@ client.on("interactionCreate", async (interaction) => {
         await interaction
             .editReply({
                 content: "❌ Bir hata oluştu!",
-                ephemeral: true,
             })
             .catch(() => {});
     }
