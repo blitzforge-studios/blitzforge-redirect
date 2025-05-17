@@ -81,8 +81,8 @@ app.get("/discord-oauth-callback", async (req, res) => {
         }
 
         const tokens = await discord.getOAuthTokens(code);
-        const meData = await discord.getUserData(tokens);
-        const userId = meData.user.id;
+        const userData = await discord.getUserData(tokens);
+        const userId = userData.id;
         await storage.storeDiscordTokens(userId, {
             access_token: tokens.access_token,
             refresh_token: tokens.refresh_token,
