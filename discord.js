@@ -87,10 +87,22 @@ export async function getUserData(tokens, botToken = null) {
     }
 
     const response = await fetch(url, { headers });
+    const contentType = response.headers.get("content-type");
+
+    if (!contentType || !contentType.includes("application/json")) {
+        const errorText = await response.text();
+        throw new Error(
+            `❌ Invalid response type: ${contentType}. Error: ${errorText}`
+        );
+    }
 
     if (response.ok) {
-        const data = await response.json();
-        return botToken ? data : data.user;
+        try {
+            const data = await response.json();
+            return botToken ? data : data.user;
+        } catch (error) {
+            throw new Error(`❌ JSON parse error: ${error.message}`);
+        }
     } else {
         const errorText = await response.text();
         throw new Error(

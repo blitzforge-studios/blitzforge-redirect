@@ -8,6 +8,11 @@ const CLIENT_ID = process.env.CLIENT_ID;
 
 const commands = [
     {
+        name: "ping",
+        description: "pong?",
+        defaultMemberPermissions: "Administrator",
+    },
+    {
         name: "addrole",
         description: "Add role to user",
         defaultMemberPermissions: "Administrator",

@@ -211,39 +211,59 @@ app.post("/discord/commands/add-role", async (req, res) => {
         }
 
         const auth = req.headers.authorization;
-        if (!auth || !auth.startsWith("Bearer ")) {
+        if (!auth || !auth.startsWith("Bot ")) {
             return res.status(401).json({
                 error: "Yetkilendirme gerekli",
             });
         }
 
         const botToken = auth.split(" ")[1];
-        const userData = await discord.getUserData(userId, botToken);
-        if (!userData) {
-            return res.status(404).json({
-                error: "Discord kullanıcısı bulunamadı",
+        try {
+            const userData = await discord.getUserData(userId, botToken);
+            if (!userData || !userData.username) {
+                console.error(
+                    `Invalid user data received for userId ${userId}:`,
+                    userData
+                );
+                return res.status(404).json({
+                    success: false,
+                    error: "Discord kullanıcısı bulunamadı veya kullanıcı bilgileri eksik",
+                });
+            }
+
+            await updateUser(userId, {
+                userId,
+                username: userData.username,
+                is_dev: role === "dev",
+                is_mod: role === "mod",
+                is_ads: role === "ads",
+                is_owner: role === "owner",
+            });
+
+            await updateAllowedIDs();
+
+            return res.status(200).json({
+                success: true,
+                message: `${userData.username} kullanıcısına ${role} rolü verildi`,
+            });
+        } catch (e) {
+            console.error("Error in /discord/commands/add-role:", e);
+            if (e.message.includes("Invalid response type")) {
+                return res.status(502).json({
+                    success: false,
+                    error: "Discord API'den geçersiz yanıt alındı",
+                });
+            }
+            return res.status(500).json({
+                success: false,
+                error: "Sunucu hatası oluştu: " + e.message,
             });
         }
-
-        await updateUser(userId, {
-            userId,
-            username: userData.username,
-            is_dev: role === "dev",
-            is_mod: role === "mod",
-            is_ads: role === "ads",
-            is_owner: role === "owner",
-        });
-
-        await updateAllowedIDs();
-
-        res.json({
-            success: true,
-            message: `${userData.username} kullanıcısına ${role} rolü verildi`,
-        });
-    } catch (e) {
-        console.error("Error in /discord/commands/add-role:", e);
-        res.status(500).json({
-            error: "Internal Server Error",
+    } catch (outerError) {
+        console.error("Outer error in /discord/commands/add-role:", outerError);
+        return res.status(500).json({
+            success: false,
+            error: "Beklenmeyen bir hata oluştu",
         });
     }
 });
