@@ -9,17 +9,18 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const commands = [
     {
         name: "addrole",
-        description: "Kullanıcıya rol ekle",
+        description: "Add role to user",
+        defaultMemberPermissions: "Administrator",
         options: [
             {
                 name: "user",
-                description: "Role eklenecek kullanıcı",
+                description: "The user",
                 type: 6,
                 required: true,
             },
             {
                 name: "role",
-                description: "Eklenecek rol",
+                description: "The role",
                 type: 3,
                 required: true,
                 choices: [
@@ -33,11 +34,12 @@ const commands = [
     },
     {
         name: "removerole",
-        description: "Kullanıcıdan rol sil",
+        description: "Remove role from the staff",
+        defaultMemberPermissions: "Administrator",
         options: [
             {
                 name: "user",
-                description: "Rolü silinecek kullanıcı",
+                description: "The user",
                 type: 6,
                 required: true,
             },

@@ -1,4 +1,9 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import {
+    Client,
+    GatewayIntentBits,
+    MessageFlags,
+    PermissionsBitField,
+} from "discord.js";
 import { config } from "dotenv";
 import fetch from "node-fetch";
 
@@ -17,20 +22,12 @@ client.on("interactionCreate", async (interaction) => {
 
     const { commandName, options } = interaction;
 
-    // Sadece yetkili kullanıcılar kullanabilir
-    if (!interaction.member.permissions.has("Administrator")) {
-        return interaction.reply({
-            content: "❌ Bu komutu kullanma yetkiniz yok!",
-            ephemeral: true,
-        });
-    }
-
     try {
         if (commandName === "addrole") {
             const user = options.getUser("user");
             const role = options.getString("role");
 
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply({ ephemeral: MessageFlags.Ephemeral });
 
             const response = await fetch(
                 "https://blitzforge-redirect.onrender.com/discord/commands/add-role",
@@ -51,20 +48,18 @@ client.on("interactionCreate", async (interaction) => {
             if (response.ok) {
                 await interaction.editReply({
                     content: `✅ ${user.tag} kullanıcısına ${role} rolü verildi!`,
-                    ephemeral: true,
                 });
             } else {
                 await interaction.editReply({
                     content: `❌ Hata: ${
                         data.error || "Bilinmeyen bir hata oluştu"
                     }`,
-                    ephemeral: true,
                 });
             }
         } else if (commandName === "removerole") {
             const user = options.getUser("user");
 
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply({ ephemeral: MessageFlags.Ephemeral });
 
             const response = await fetch(
                 "https://blitzforge-redirect.onrender.com/remove-metadata",
@@ -82,12 +77,10 @@ client.on("interactionCreate", async (interaction) => {
             if (response.ok) {
                 await interaction.editReply({
                     content: `✅ ${user.tag} kullanıcısının rolleri kaldırıldı!`,
-                    ephemeral: true,
                 });
             } else {
                 await interaction.editReply({
                     content: "❌ Rolleri kaldırırken bir hata oluştu!",
-                    ephemeral: true,
                 });
             }
         }
