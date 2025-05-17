@@ -32,7 +32,7 @@ const allowedIDs = {
     ],
     is_owner: [
         "884896120986284033", // felas
-        "285118390031351809", // neo
+        // "285118390031351809", // neo
     ],
 };
 
@@ -107,6 +107,34 @@ app.post("/update-metadata", async (req, res) => {
         res.sendStatus(204);
     } catch (e) {
         console.error("Error in /update-metadata:", e);
+        res.sendStatus(500);
+    }
+});
+
+app.post("/remove-metadata", async (req, res) => {
+    try {
+        const userId = req.body.userId;
+        const tokens = await storage.getDiscordTokens(userId);
+
+        if (!tokens) {
+            console.error(`No tokens found for user ${userId}`);
+            return res.sendStatus(404);
+        }
+
+        const metadata = {
+            is_dev: false,
+            is_mod: false,
+            is_ads: false,
+            is_owner: false,
+        };
+
+        console.log(`📡 Removing metadata for ${userId}`);
+        await discord.pushMetadata(userId, tokens, metadata);
+        console.log(`✅ Successfully removed metadata for ${userId}`);
+
+        res.sendStatus(204);
+    } catch (e) {
+        console.error("Error in /remove-metadata:", e);
         res.sendStatus(500);
     }
 });
