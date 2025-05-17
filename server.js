@@ -4,7 +4,13 @@ import { config } from "dotenv";
 import path from "path";
 import * as discord from "./discord.js";
 import * as storage from "./storage.js";
-import { connectDB, getUser, updateUser, getAllowedUsers } from "./database.js";
+import {
+    connectDB,
+    getUser,
+    updateUser,
+    getAllowedUsers,
+    db,
+} from "./database.js";
 
 config();
 
@@ -113,6 +119,12 @@ app.post("/remove-metadata", async (req, res) => {
             return res.sendStatus(404);
         }
 
+        const user = await getUser(userId);
+        if (!user) {
+            console.error(`User ${userId} not found in database`);
+            return res.sendStatus(404);
+        }
+
         const metadata = {
             is_dev: false,
             is_mod: false,
@@ -123,13 +135,24 @@ app.post("/remove-metadata", async (req, res) => {
         console.log(`📡 Removing metadata for ${userId}`);
         await discord.pushMetadata(userId, tokens, metadata);
 
-        await db.collection("users").deleteOne({ userId });
-        console.log(`🗑️ User removed from database: ${userId}`);
+        console.log(`🗑️ Attempting to remove user from database: ${userId}`);
+        const result = await db.collection("users").deleteOne({ 
+            userId: userId.toString() 
+        });
 
-        console.log(`✅ Successfully removed metadata and user data for ${userId}`);
+        if (result.deletedCount === 0) {
+            console.error(`❌ Failed to delete user ${userId} from database`);
+        } else {
+            console.log(`✅ User ${userId} successfully removed from database`);
+        }
+
+        // Storage'dan token'ları sil
+        await storage.deleteDiscordTokens(userId);
+        
+        await updateAllowedIDs();
         res.sendStatus(204);
     } catch (e) {
-        console.error("Error in /remove-metadata:", e);
+        console.error("Error in /remove-metadata:", e, e.stack);
         res.sendStatus(500);
     }
 });

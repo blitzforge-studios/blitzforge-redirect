@@ -62,3 +62,5 @@ export async function getAllowedUsers() {
         return [];
     }
 }
+
+export { db };
