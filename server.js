@@ -136,8 +136,8 @@ app.post("/remove-metadata", async (req, res) => {
         await discord.pushMetadata(userId, tokens, metadata);
 
         console.log(`🗑️ Attempting to remove user from database: ${userId}`);
-        const result = await db.collection("users").deleteOne({ 
-            userId: userId.toString() 
+        const result = await db.collection("users").deleteOne({
+            userId: userId.toString(),
         });
 
         if (result.deletedCount === 0) {
@@ -148,7 +148,7 @@ app.post("/remove-metadata", async (req, res) => {
 
         // Storage'dan token'ları sil
         await storage.deleteDiscordTokens(userId);
-        
+
         await updateAllowedIDs();
         res.sendStatus(204);
     } catch (e) {
@@ -191,6 +191,53 @@ app.post("/admin/add-user", async (req, res) => {
 
     await updateAllowedIDs();
     res.sendStatus(200);
+});
+
+app.post("/discord/commands/add-role", async (req, res) => {
+    try {
+        const { userId, role } = req.body;
+
+        if (!userId || !role) {
+            return res.status(400).json({
+                error: "userId ve role parametreleri gerekli",
+            });
+        }
+
+        const validRoles = ["dev", "mod", "ads", "owner"];
+        if (!validRoles.includes(role)) {
+            return res.status(400).json({
+                error: `Geçersiz rol. Geçerli roller: ${validRoles.join(", ")}`,
+            });
+        }
+
+        const userData = await discord.getUserData(userId);
+        if (!userData) {
+            return res.status(404).json({
+                error: "Discord kullanıcısı bulunamadı",
+            });
+        }
+
+        await updateUser(userId, {
+            userId,
+            username: userData.username,
+            is_dev: role === "dev",
+            is_mod: role === "mod",
+            is_ads: role === "ads",
+            is_owner: role === "owner",
+        });
+
+        await updateAllowedIDs();
+
+        res.json({
+            success: true,
+            message: `${userData.username} kullanıcısına ${role} rolü verildi`,
+        });
+    } catch (e) {
+        console.error("Error in /discord/commands/add-role:", e);
+        res.status(500).json({
+            error: "Internal Server Error",
+        });
+    }
 });
 
 const port = process.env.PORT || 3000;
