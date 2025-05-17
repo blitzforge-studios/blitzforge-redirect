@@ -82,6 +82,11 @@ app.get("/discord-oauth-callback", async (req, res) => {
 
         const tokens = await discord.getOAuthTokens(code);
         const userData = await discord.getUserData(tokens);
+
+        if (!userData || !userData.id) {
+            throw new Error("Discord API'den geçersiz kullanıcı verisi alındı");
+        }
+
         const userId = userData.id;
         await storage.storeDiscordTokens(userId, {
             access_token: tokens.access_token,

@@ -99,7 +99,18 @@ export async function getUserData(tokens, botToken = null) {
     if (response.ok) {
         try {
             const data = await response.json();
-            return botToken ? data : data.user;
+            // Bot token ile çağrıldığında direkt user objesi döner
+            // OAuth token ile çağrıldığında data.user şeklinde döner
+            const user = botToken ? data : data.user;
+
+            if (!user || !user.id || !user.username) {
+                console.error("Invalid user data received:", user);
+                throw new Error(
+                    "Invalid user data structure received from Discord API"
+                );
+            }
+
+            return user;
         } catch (error) {
             throw new Error(`❌ JSON parse error: ${error.message}`);
         }
@@ -113,7 +124,7 @@ export async function getUserData(tokens, botToken = null) {
 
 export async function pushMetadata(userId, tokens, metadata) {
     const userData = await getUserData(tokens);
-    const username = userData.user.username;
+    const username = userData.username; // Artık .user'a gerek yok
     const url = `https://discord.com/api/v10/users/@me/applications/${process.env.CLIENT_ID}/role-connection`;
     const accessToken = await getAccessToken(userId, tokens);
 
