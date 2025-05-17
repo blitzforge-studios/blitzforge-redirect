@@ -9,6 +9,6 @@ export async function getDiscordTokens(userId) {
 }
 
 export async function deleteDiscordTokens(userId) {
-    const key = `discord-tokens-${userId}`;
-    await storage.del(key);
+    const key = `discord-${userId}`;
+    await store.delete(key);
 }
