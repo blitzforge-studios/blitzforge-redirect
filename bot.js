@@ -8,8 +8,6 @@ const client = new Client({
     intents: [GatewayIntentBits.Guilds],
 });
 
-// Bot komutları deploy-commands.js dosyasına taşındı
-
 client.once("ready", async () => {
     console.log(`🤖 ${client.user.tag} is ready!`);
 });

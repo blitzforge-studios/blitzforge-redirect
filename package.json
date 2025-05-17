@@ -6,8 +6,9 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "register": "node register.js",
-        "start": "node server.js && node bot.js"
+        "predeploy": "node register.js",
+        "deploy": "node deploy-commands.js",
+        "start": "node server.js & node bot.js"
     },
     "keywords": [],
     "author": "",
