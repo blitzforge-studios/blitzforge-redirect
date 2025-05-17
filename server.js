@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import path from "path";
 import * as discord from "./discord.js";
 import * as storage from "./storage.js";
+import { connectDB, getUser, updateUser, getAllowedUsers } from "./database.js";
 
 config();
 
@@ -13,27 +14,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static("public"));
 app.use(express.json());
 
-/*
-  Hardcoded allowed user IDs for each role.
-*/
-const allowedIDs = {
-    is_dev: [
-        "896145574968061982", // tommy
-    ],
-    is_mod: [
-        "1250795695439614044", // Vithir
-        "1335641550364999773", // milk
-        "154939684881956864", // cheetoo
-        "542461975683399711", // Adrian
-    ],
-    is_ads: [
-        "154939684881956864", // cheetoo
-        "621158428194242560", // mica
-    ],
-    is_owner: [
-        "884896120986284033", // felas
-        "285118390031351809", // neo
-    ],
+// Global allowedIDs object
+let allowedIDs = {
+    is_dev: [],
+    is_mod: [],
+    is_ads: [],
+    is_owner: [],
 };
 
 /**
@@ -130,13 +116,51 @@ app.post("/remove-metadata", async (req, res) => {
 
         console.log(`📡 Removing metadata for ${userId}`);
         await discord.pushMetadata(userId, tokens, metadata);
-        console.log(`✅ Successfully removed metadata for ${userId}`);
 
+        await db.collection("users").deleteOne({ userId });
+        console.log(`🗑️ User removed from database: ${userId}`);
+
+        console.log(`✅ Successfully removed metadata and user data for ${userId}`);
         res.sendStatus(204);
     } catch (e) {
         console.error("Error in /remove-metadata:", e);
         res.sendStatus(500);
     }
+});
+
+await connectDB();
+
+async function updateAllowedIDs() {
+    const users = await getAllowedUsers();
+    allowedIDs = {
+        is_dev: [],
+        is_mod: [],
+        is_ads: [],
+        is_owner: [],
+    };
+
+    users.forEach((user) => {
+        if (user.is_dev) allowedIDs.is_dev.push(user.userId);
+        if (user.is_mod) allowedIDs.is_mod.push(user.userId);
+        if (user.is_ads) allowedIDs.is_ads.push(user.userId);
+        if (user.is_owner) allowedIDs.is_owner.push(user.userId);
+    });
+}
+
+app.post("/admin/add-user", async (req, res) => {
+    const { userId, username, roles } = req.body;
+
+    await updateUser(userId, {
+        userId,
+        username,
+        is_dev: roles.includes("dev"),
+        is_mod: roles.includes("mod"),
+        is_ads: roles.includes("ads"),
+        is_owner: roles.includes("owner"),
+    });
+
+    await updateAllowedIDs();
+    res.sendStatus(200);
 });
 
 const port = process.env.PORT || 3000;
