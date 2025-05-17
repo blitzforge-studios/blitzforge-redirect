@@ -33,11 +33,17 @@ async function updateMetadata(userId) {
         return;
     }
 
+    const user = await getUser(userId);
+    if (!user) {
+        console.error(`User ${userId} not found in database`);
+        return;
+    }
+
     const metadata = {
-        is_dev: allowedIDs.is_dev.includes(userId),
-        is_mod: allowedIDs.is_mod.includes(userId),
-        is_ads: allowedIDs.is_ads.includes(userId),
-        is_owner: allowedIDs.is_owner.includes(userId),
+        is_dev: user.is_dev,
+        is_mod: user.is_mod,
+        is_ads: user.is_ads,
+        is_owner: user.is_owner,
     };
 
     console.log(`📡 Pushing metadata for ${userId}:`, metadata);
@@ -129,6 +135,7 @@ app.post("/remove-metadata", async (req, res) => {
 });
 
 await connectDB();
+await updateAllowedIDs();
 
 async function updateAllowedIDs() {
     const users = await getAllowedUsers();
