@@ -33,7 +33,7 @@ const commands = [
                     { name: "🛡️ Moderator", value: "mod" },
                     { name: "📢 Advertiser", value: "ads" },
                     { name: "👑 Owner", value: "owner" },
-                    { name: "-contributor", value: "contributor" },
+                    { name: "🔧 Contributor", value: "contributor" },
                 ],
             },
         ],
