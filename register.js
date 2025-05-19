@@ -93,6 +93,28 @@ const body = [
         },
         type: 7, // boolean_eq
     },
+    {
+        key: "is_contrubitor",
+        name: "contributor",
+        name_localizations: {
+            tr: "katkıda bulunan",
+            fr: "contributeur",
+            de: "mitwirkender",
+            "pt-BR": "contribuidor",
+            el: "εισερχόμενος",
+        },
+        description:
+            "A role for contributors. Claimable by users who have contributed to the project.",
+        description_localizations: {
+            tr: "Katkıda bulunanlar için bir rol. Projeye katkıda bulunan kullanıcılar tarafından alınabilir.",
+            fr: "Un rôle pour les contributeurs. Réclamable par les utilisateurs qui ont contribué au projet.",
+            de: "Eine Rolle für Mitwirkende. Anspruchsberechtigt sind Benutzer, die zum Projekt beigetragen haben.",
+            "pt-BR":
+                "Um papel para contribuidores. Pode ser reivindicado por usuários que contribuíram para o projeto.",
+            el: "Ένας ρόλος για εισερχόμενους. Μπορεί να διεκδικηθεί από χρήστες που έχουν συνεισφέρει στο έργο.",
+        },
+        type: 7, // boolean_eq
+    },
 ];
 
 const response = await fetch(url, {

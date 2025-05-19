@@ -54,6 +54,7 @@ export async function getAllowedUsers() {
                     { is_mod: true },
                     { is_ads: true },
                     { is_owner: true },
+                    { is_contributor: true },
                 ],
             })
             .toArray();

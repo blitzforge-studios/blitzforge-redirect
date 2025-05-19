@@ -33,6 +33,7 @@ const commands = [
                     { name: "🛡️ Moderator", value: "mod" },
                     { name: "📢 Advertiser", value: "ads" },
                     { name: "👑 Owner", value: "owner" },
+                    { name: "-contributor", value: "contributor" },
                 ],
             },
         ],
@@ -51,8 +52,6 @@ const commands = [
         ],
     },
 ];
-
-const rest = new REST().setToken(process.env.CLIENT_TOKEN);
 
 async function main() {
     const rest = new REST({ version: "10" }).setToken(TOKEN);

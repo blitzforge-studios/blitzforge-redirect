@@ -26,6 +26,7 @@ let allowedIDs = {
     is_mod: [],
     is_ads: [],
     is_owner: [],
+    is_contributor: [],
 };
 
 /**
@@ -50,6 +51,7 @@ async function updateMetadata(userId) {
         is_mod: user.is_mod,
         is_ads: user.is_ads,
         is_owner: user.is_owner,
+        is_contributor: user.is_contributor,
     };
 
     console.log(`📡 Pushing metadata for ${userId}:`, metadata);
@@ -135,6 +137,7 @@ app.post("/remove-metadata", async (req, res) => {
             is_mod: false,
             is_ads: false,
             is_owner: false,
+            is_contributor: false,
         };
 
         console.log(`📡 Removing metadata for ${userId}`);
@@ -172,6 +175,7 @@ async function updateAllowedIDs() {
         is_mod: [],
         is_ads: [],
         is_owner: [],
+        is_contributor: [],
     };
 
     users.forEach((user) => {
@@ -179,6 +183,7 @@ async function updateAllowedIDs() {
         if (user.is_mod) allowedIDs.is_mod.push(user.userId);
         if (user.is_ads) allowedIDs.is_ads.push(user.userId);
         if (user.is_owner) allowedIDs.is_owner.push(user.userId);
+        if (user.is_contributor) allowedIDs.is_contributor.push(user.userId);
     });
 }
 
@@ -192,6 +197,7 @@ app.post("/admin/add-user", async (req, res) => {
         is_mod: roles.includes("mod"),
         is_ads: roles.includes("ads"),
         is_owner: roles.includes("owner"),
+        is_contributor: roles.includes("contributor"),
     });
 
     await updateAllowedIDs();
@@ -208,7 +214,7 @@ app.post("/discord/commands/add-role", async (req, res) => {
             });
         }
 
-        const validRoles = ["dev", "mod", "ads", "owner"];
+        const validRoles = ["dev", "mod", "ads", "owner", "contributor"];
         if (!validRoles.includes(role)) {
             return res.status(400).json({
                 error: `Geçersiz rol. Geçerli roller: ${validRoles.join(", ")}`,
@@ -243,6 +249,7 @@ app.post("/discord/commands/add-role", async (req, res) => {
                 is_mod: role === "mod",
                 is_ads: role === "ads",
                 is_owner: role === "owner",
+                is_contributor: role === "contributor",
             });
 
             await updateAllowedIDs();
