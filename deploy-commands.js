@@ -29,11 +29,11 @@ const commands = [
                 type: 3,
                 required: true,
                 choices: [
+                    { name: "🔧 Contributor", value: "contributor" },
                     { name: "🛠️ Developer", value: "dev" },
                     { name: "🛡️ Moderator", value: "mod" },
                     { name: "📢 Advertiser", value: "ads" },
                     { name: "👑 Owner", value: "owner" },
-                    { name: "🔧 Contributor", value: "contributor" },
                 ],
             },
         ],

@@ -94,7 +94,7 @@ const body = [
         type: 7, // boolean_eq
     },
     {
-        key: "is_contrubitor",
+        key: "is_contributor",
         name: "contributor",
         name_localizations: {
             tr: "katkıda bulunan",
